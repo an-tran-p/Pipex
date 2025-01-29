@@ -6,13 +6,13 @@
 #    By: atran <atran@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 17:50:04 by atran             #+#    #+#              #
-#    Updated: 2025/01/06 18:28:53 by atran            ###   ########.fr        #
+#    Updated: 2025/01/29 20:53:07 by atran            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
-SRCS = pipex.c 
+SRCS = pipex.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -23,20 +23,20 @@ FLAGS = -Wall -Wextra -Werror
 RM = rm -rf
 
 $(NAME) :
-		make all -C libft
+		make all -C Libft
 		make all -C Printf
-		cc $(CFLAGS) $(SRCS) -o $(NAME)
+		cc $(CFLAGS) $(SRCS) -LLibft -lft -LPrintf -lftprintf -o $(NAME)
 
 all : $(NAME)
 
-clean : 
+clean :
 		$(RM) $(OBJS)
-		make clean -C libft
+		make clean -C Libft
 		make clean -C Printf
 
 fclean : clean
 		$(RM) $(NAME)
-		make fclean -C libft
+		make fclean -C Libft
 		make fclean -C Printf
 
 re : fclean all
