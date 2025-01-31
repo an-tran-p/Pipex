@@ -6,12 +6,32 @@
 /*   By: atran <atran@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 18:02:26 by atran             #+#    #+#             */
-/*   Updated: 2025/01/29 21:11:06 by atran            ###   ########.fr       */
+/*   Updated: 2025/01/31 17:57:46 by atran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+int	check_open_file(char *file1, char *file2)
+{
+	int		fd1;
+	int		fd2;
+
+	fd1 = open(file1, O_RDONLY);
+	if (fd1 == -1)
+	{
+		perror("Error opening input file\n");
+		return (1);
+	}
+	close(fd1);
+	fd2 = open(file2, O_RDWR | O_CREAT);
+	if (fd2 == -1)
+	{
+		perror("Error opening output file\n");
+		return (1);
+	}
+	return (0);
+}
 void	ft_free_strarr(char **str_arr)
 {
 	int	i;
@@ -74,27 +94,9 @@ void	execute(char *argv, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*file1;
-	char	*file2;
-	char	*cmd1;
-	char	*cmd2;
-	int		fd1;
-	int		fd2;
-
 	if (argc != 5)
 	{
 		perror("Error: 4 arguments needed <file1> <cmd1> <cmd2> <file2>\n");
-		return (1);
-	}
-	file1 = argv[1];
-	cmd1 = argv[2];
-	file2 = argv[3];
-	cmd2 = argv[4];
-	fd1 = open(file1, O_RDONLY);
-	fd2 = open(file2, O_RDWR | O_CREAT);
-	if (fd1 == -1 || fd2 == -1)
-	{
-		perror("Error opening file\n");
 		return (1);
 	}
 	if (dup2(fd1, STDIN_FILENO) == -1)
@@ -107,3 +109,4 @@ int	main(int argc, char **argv, char **envp)
 	execute(argv[2], envp);
 	ft_printf("hello");
 }
+

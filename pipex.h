@@ -6,7 +6,7 @@
 /*   By: atran <atran@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 17:45:16 by atran             #+#    #+#             */
-/*   Updated: 2025/01/29 20:41:44 by atran            ###   ########.fr       */
+/*   Updated: 2025/01/31 17:44:55 by atran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <errno.h>
 
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 char	**ft_split(char const *s, char c);
