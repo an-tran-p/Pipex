@@ -6,7 +6,7 @@
 /*   By: atran <atran@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 18:02:26 by atran             #+#    #+#             */
-/*   Updated: 2025/02/01 17:24:34 by atran            ###   ########.fr       */
+/*   Updated: 2025/02/01 19:39:36 by atran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	execute(char *argv, char **envp)
 	if (!path)
 	{
 		ft_free_strarr(cmd);
-		perror("Can't find path to execute cmd\n");
+		perror("Command not found\n");
 		return ;
 	}
 	if (execve(path, cmd, envp) == -1)
