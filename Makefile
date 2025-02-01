@@ -6,15 +6,15 @@
 #    By: atran <atran@student.hive.fi>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 17:50:04 by atran             #+#    #+#              #
-#    Updated: 2025/01/31 17:48:44 by atran            ###   ########.fr        #
+#    Updated: 2025/02/01 18:04:54 by atran            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
 
-SRCS = pipex.c
+SRCS = pipex.c pipex_utils.c check.c
 
-OBJS = $(SRCS:.c=.o)
+OBJS = $(SRCS:%.c=%.o)
 
 CC = cc
 
@@ -22,12 +22,15 @@ FLAGS = -Wall -Wextra -Werror
 
 RM = rm -rf
 
-$(NAME) :
+all : $(NAME)
+
+$(OBJS): %.o: %.c
+	$(CC) $(FLAGS) -c $< -o $@
+
+$(NAME) : $(OBJS)
 		make all -C Libft
 		make all -C Printf
-		cc $(CFLAGS) $(SRCS) -LLibft -lft -LPrintf -lftprintf -o $(NAME)
-
-all : $(NAME)
+		cc $(OBJS) -LLibft -lft -LPrintf -lftprintf -o $(NAME)
 
 clean :
 		$(RM) $(OBJS)
