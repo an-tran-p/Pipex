@@ -6,29 +6,89 @@
 /*   By: atran <atran@student.hive.fi>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 18:03:58 by atran             #+#    #+#             */
-/*   Updated: 2025/02/01 18:04:41 by atran            ###   ########.fr       */
+/*   Updated: 2025/02/04 18:08:20 by atran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	check_open_file(char *file1, char *file2)
+char	*check_space(char *argv)
 {
-	int	fd1;
-	int	fd2;
+	int		flag1;
+	int		flag2;
+	char	*str;
 
-	fd1 = open(file1, O_RDONLY);
-	if (fd1 == -1)
+	flag1 = 0;
+	flag2 = 0;
+	str = argv;
+	while (*str)
 	{
-		perror("Error opening input file\n");
-		return (1);
+		if (*str == '\'')
+			flag1++;
+		if (*str == '\"')
+			flag2++;
+		if (*str == ' ' && (flag1 % 2 != 0 || flag2 % 2 != 0))
+			return (str);
+		str++;
 	}
-	close(fd1);
-	fd2 = open(file2, O_RDWR | O_CREAT | O_TRUNC, 0777);
-	if (fd2 == -1)
+	return (NULL);
+}
+
+char	replace_chr(char *argv)
+{
+	char	c;
+	int		i;
+	int		flag;
+
+	c = 33;
+	flag = 0;
+	while (c <= 126)
 	{
-		perror("Error opening output file\n");
-		return (1);
+		i = 0;
+		while (argv[i])
+		{
+			if (argv[i] == c)
+				flag = 1;
+			i++;
+		}
+		if (flag == 0 && c != '0')
+			return (c);
+		c++;
 	}
-	return (0);
+	return ('0');
+}
+
+char	replace_space_in_cmd(char *argv)
+{
+	char	rp;
+	char	*space;
+
+	rp = replace_chr(argv);
+	if (rp == '0')
+		return (rp);
+	while (check_space(argv))
+	{
+		space = check_space(argv);
+		*space = rp;
+	}
+	return (rp);
+}
+
+void	put_back_space(char **cmd, char c)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (cmd[i])
+	{
+		j = 0;
+		while (cmd[i][j])
+		{
+			if (cmd[i][j] == c)
+				cmd[i][j] = ' ';
+			j++;
+		}
+		i++;
+	}
 }
